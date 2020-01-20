@@ -14,6 +14,7 @@
 <script>
 import axios from 'axios'
 import qs from 'qs'
+import { Message } from 'element-ui';
 export default {
     data(){
         return{
@@ -31,7 +32,14 @@ export default {
                 token:this.token
             },
         }).then(res=>{
-                this.userName=res.data.data[0].userName
+                if(res.code=="0"){
+                    this.userName=res.data.data[0].userName
+                }else{
+                    this.$message({
+                        type: 'error',
+                        message:res.msg
+                    });
+                }
             })
         },
         login(){
@@ -41,7 +49,18 @@ export default {
             })
             axios.post("/api/sysUsers/login",
             postData).then(res=>{
-                this.token=res.data.msg;
+                if(res.data.code=="0"){
+                    this.token=res.data.msg;
+                    this.$message({
+                        message: '登录成功',
+                        type: 'success'
+                    });
+                }else{
+                    this.$message({
+                        type: 'error',
+                        message: '登录失败!'
+                    });
+                }
             })
         }
     }
