@@ -5,11 +5,12 @@ import App from './App'
 import router from './router'
 //组件
 import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 //日期格式
 import Moment from 'vue-moment'
 
-
-
+//检测是否需要登录
+import "./utils/permission";
 
 
 Vue.use(ElementUI, { size: 'medium' })
