@@ -9,3 +9,8 @@
 .right{
     float:right;
 }
+/**分页局中**/
+.pagination {
+    text-align: center;
+    max-height: 20;
+  }

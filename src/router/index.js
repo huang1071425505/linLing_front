@@ -8,9 +8,9 @@ Vue.use(Router)
 export const childrenMap = [
   {
     // 测试1
-    path: 'ceshi',
-    name: 'ceshi',
-    component: _import('ceshi.vue'),
+    path: 'sysUser',
+    name: 'sysUser',
+    component: _import('sys/sysUser.vue'),
   },
 
 ]

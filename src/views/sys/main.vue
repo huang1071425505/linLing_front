@@ -10,7 +10,7 @@
                         </template>
                         <el-submenu index="1-4">
                         <span slot="title">选项4</span>
-                        <el-menu-item index="1-4-1" @click="ceshi('ceshi','选项1')">选项1</el-menu-item>
+                        <el-menu-item index="1-4-1" @click="ceshi('sysUser','系统用户')">系统用户</el-menu-item>
                         </el-submenu>
                     </el-submenu>
                     <el-menu-item index="2">
