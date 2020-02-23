@@ -6,6 +6,12 @@ Vue.use(Router)
 
 
 export const childrenMap = [
+  {
+    // 测试1
+    path: 'ceshi',
+    name: 'ceshi',
+    component: _import('ceshi.vue'),
+  },
 
 ]
 export default new Router({
@@ -23,7 +29,6 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: _import('sys/login.vue'),
-      children: childrenMap
     }
   ]
 })

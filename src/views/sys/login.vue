@@ -13,12 +13,10 @@
 </template>
 
 <script>
-import fetch from '@/utils/fetch.js';
 import { Message } from 'element-ui';
 import {
     getToken,
   } from '@/utils/cookies'
-import store from '@/store';
 export default {
     data(){
         return{
@@ -34,22 +32,12 @@ export default {
     mounted(){
     },
     methods:{
-        ceshi(){
-            fetch.get("/api/sysUsers/myInfo").then(res=>{
-                if(res.code=="0"){
-                    this.userName=res.data.data[0].userName
-                }else{
-                    this.$message({
-                        type: 'error',
-                        message:res.msg
-                    });
-                }
-            })
-        },
+        //登录
         login(){
-            store.dispatch('login', this.form).then(res => {
+            this.$store.dispatch('login', this.form).then(res => {
+                console.log(res.code)
                 if (res.code == "0") {
-                    window.location.href = "/";
+                    this.$router.push("/")
                     Message({
                         message: '登录成功',
                         type: 'success',
@@ -89,7 +77,7 @@ export default {
     width: 400px;
     margin: 0 3% 55px 3%;
     position: relative;
-    } /* necessary to give position: relative to parent. */
+    }
     input[type="text"] {
     color: rgb(0, 0, 0);
     width: 100%;

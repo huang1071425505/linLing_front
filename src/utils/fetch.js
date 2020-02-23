@@ -3,7 +3,6 @@ import qs from 'qs'
 import {
     Message
 } from 'element-ui'
-import store from '@/store'
 import router from '@/router'
 import {
   getToken,
@@ -49,14 +48,11 @@ axios.interceptors.request.use(
                 duration: 5 * 1000
             })
         }else if (error.response.status == 401) {
-            store
+            this.$store
               .dispatch("Logout")
               .then(res => {
                 if (res.code == "0") {
-                  if (store.getters.error401 == 0) {
                     router.push("/login?relogin=登录超时，请重新登录");
-                  }
-        
                 } else {
                   Message({
                     message: res.msg,

@@ -12,6 +12,14 @@ import Moment from 'vue-moment'
 //检测是否需要登录
 import "./utils/permission";
 
+//全局样式
+import "./style/main.css";
+//字体样式
+import "./style/font.css";
+
+//全局变量
+import store from '@/store';
+Vue.prototype.$store=store;
 
 Vue.use(ElementUI, { size: 'medium' })
 Vue.use(Moment)

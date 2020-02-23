@@ -1,0 +1,24 @@
+/**辅助文字**/
+.ExtraSmall{
+    font-size:12px;
+}
+/**正文（小）**/
+.Small{
+    font-size:13px;
+}
+/**正文**/
+.Base{
+    font-size:14px;
+}
+/**小标题**/
+.ExtraSmall{
+    font-size:16px;
+}
+/**标题**/
+.ExtraSmall{
+    font-size:18px;
+}
+/**主标题**/
+.ExtraSmall{
+    font-size:20px;
+}

@@ -23,6 +23,9 @@ const store = new Vuex.Store({ //全局变量定义
 		userBmid: "", //用户部门Id
 		userBmname: "", //用户部门Name
 	},
+	getters: {
+			getUserName: state => state.userName
+	},
 	mutations: {
 		login(state, user) {
 			state.hasLogin = true;
@@ -42,10 +45,10 @@ const store = new Vuex.Store({ //全局变量定义
 			state.userDwname = "";
 			state.userBmid = "";
 			state.userBmname = "";
-        },
-        getInfo(){
+    },
+			getInfo(){
 
-        }
+			}
     },
     actions: {
         //登录
