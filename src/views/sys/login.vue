@@ -2,10 +2,13 @@
     <div class="loginContainer" >
         <el-form class="loginForm" ref="loginForm" :model="form" :rules="rules" label-position="left">
             <el-form-item prop="userCode" class="loginElement">
-                <input  class="loginInput" v-model="form.userCode"  type="text"  placeholder="账号" />
+                <el-input  prefix-icon="iconfont zhanghao" class="loginInput" v-model="form.userCode"  type="text"  placeholder="请输入账号" ></el-input>
             </el-form-item>
             <el-form-item prop="password" class="loginElement">
-                <input class="loginInput" v-model="form.password"  type="password"   placeholder="密码" @keyup.enter="login" />
+                <el-input prefix-icon="iconfont mima" class="loginInput" v-model="form.password"  :type="passw"   placeholder="请输入密码" @keyup.enter="login" >
+                    <i slot="suffix" v-if="!eyes" @click="showPassword()" class="iconfont eye"></i>
+                    <i slot="suffix" v-else @click="showPassword()" class="iconfont close-eye"></i>
+                </el-input>
             </el-form-item>
             <el-button  type="primary" @click="login">登录</el-button>
         </el-form>
@@ -20,13 +23,14 @@ import {
 export default {
     data(){
         return{
+            eyes:'false',
+            passw:'password',
             userName:"",
             rules:{},
             form:{
                 userCode:"123",
                 password:"123456"
-            },
-
+            }
         }
     },
     mounted(){
@@ -50,10 +54,21 @@ export default {
                         duration: 3 * 1000
                     });
                 }
-            });
-            
-        }
-    }
+            });        
+        },
+        //点击图标  密码显示隐藏 切换
+	showPassword(){ /*密码显示 */
+		if (this.eyes) {
+		    this.eyes = false;
+		    this.passw = 'text';
+		}else {
+		    this.eyes = true;
+		    this.passw = 'password';
+		}
+	} 
+    },
+
+    
 
 }
 </script>
@@ -64,7 +79,23 @@ export default {
     height: 100vh;
     width: 100%;
     min-width: 950px;
+    background-color: lightblue;
     overflow: hidden;
+    }
+    .iconfont{
+        width: 25px;
+        height: 25px;
+        font-size: 18px;
+        vertical-align: center;
+        color: darkgray;
+    }
+    .eye{
+        width: 35px;
+        height: 35px;
+        font-size: 25px;
+    }
+    .close-eye {
+        margin-right: 5px;
     }
     .loginContainer .loginForm {
     position: absolute;
@@ -75,6 +106,7 @@ export default {
     }
     .loginElement {
     width: 400px;
+    height: 45px;
     margin: 0 3% 55px 3%;
     position: relative;
     }
@@ -96,8 +128,9 @@ export default {
     transition: 0.4s;
     background: rgba(0, 0, 0, 0.1);
     z-index: 99;
-    height: 45px;
     border: 0;
+    border-radius: 5px;
+    font-size: 15px;
     }
     .el-form-item--medium .el-form-item__content,
     .el-form-item--medium .el-form-item__label {

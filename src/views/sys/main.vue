@@ -2,28 +2,25 @@
     <div>
         <el-container>
             <el-aside width="250px" :style="asideStyle">
-                <el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+                <el-menu  class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
                     <el-submenu index="1">
                         <template slot="title">
-                        <i class="el-icon-location"></i>
-                        <span slot="title">导航一</span>
+                        <i class="iconfont zhanghaoguanli"></i>
+                        <span slot="title">账号管理</span>
                         </template>
-                        <el-submenu index="1-4">
-                        <span slot="title">选项4</span>
-                        <el-menu-item index="1-4-1" @click="ceshi('sysUser','系统用户')">系统用户</el-menu-item>
-                        </el-submenu>
+                        <el-menu-item index="1-1" @click="ceshi('sysUser','系统用户')">系统用户</el-menu-item>
                     </el-submenu>
                     <el-menu-item index="2">
                         <i class="el-icon-menu"></i>
-                        <span slot="title">导航二</span>
+                        <span slot="title">项目申报</span>
                     </el-menu-item>
-                    <el-menu-item index="3" disabled>
+                    <el-menu-item index="3">
                         <i class="el-icon-document"></i>
-                        <span slot="title">导航三</span>
+                        <span slot="title">项目过程</span>
                     </el-menu-item>
                     <el-menu-item index="4">
                         <i class="el-icon-setting"></i>
-                        <span slot="title">导航四</span>
+                        <span slot="title">双创信息</span>
                     </el-menu-item>
                 </el-menu>
             </el-aside>
@@ -42,7 +39,7 @@
                 <el-main :style="mainStyle">
                     <card ref="card"></card>
                 </el-main>
-                <el-footer>Footer</el-footer>
+                <el-footer></el-footer>
             </el-container>
         </el-container>
     </div>
@@ -110,6 +107,14 @@ export default {
 .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
     min-height: 400px;
+  }
+  .iconfont {
+      width: 30px;
+      height: 30px;
+      font-size: 20px;
+      margin-right: 5px;
+      text-align: center;
+      vertical-align: center;
   }
 
 </style>
