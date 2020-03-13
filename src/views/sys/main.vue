@@ -9,6 +9,7 @@
                         <span slot="title">账号管理</span>
                         </template>
                         <el-menu-item index="1-1" @click="ceshi('sysUser','系统用户')">系统用户</el-menu-item>
+                        <el-menu-item index="1-1" @click="ceshi('sysRole','角色管理')">角色管理</el-menu-item>
                     </el-submenu>
                     <el-menu-item index="2">
                         <i class="el-icon-menu"></i>
@@ -31,6 +32,7 @@
                         <el-dropdown  @command="handleCommand">
                             <img class="circleChart " src="static/image/sys/touxiang.jpg">
                             <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item command="changePassword">修改密码</el-dropdown-item>
                                 <el-dropdown-item command="logout">退出登录</el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
@@ -42,15 +44,18 @@
                 <el-footer></el-footer>
             </el-container>
         </el-container>
+        <changePassword ref="changePassword"></changePassword>
     </div>
 </template>
 
 <script>
 import { Message } from 'element-ui';
 import card from './card';
+import changePassword from './sysUser/changePassword';
 export default {
     components:{
-        card
+        card,
+        changePassword
     },
     data(){
         return{
@@ -78,24 +83,26 @@ export default {
         },
         //退出登录
         handleCommand(r){
-            this.$store.dispatch('logout').then(res => {
-                if (res.code == "0") {
-                    window.location.href = "/login";
-                    Message({
-                        message: '登出成功',
-                        type: 'success',
-                        duration: 3 * 1000
-                    });
-                } else {
-                    Message({
-                        message: res.msg,
-                        type: "error",
-                        duration: 3 * 1000
-                    });
-                }
-            });
-
-
+            if(r=='changePassword'){
+                this.$refs.changePassword.init();
+            }else if(r=='logout'){
+                this.$store.dispatch('logout').then(res => {
+                    if (res.code == "0") {
+                        window.location.href = "/login";
+                        Message({
+                            message: '登出成功',
+                            type: 'success',
+                            duration: 3 * 1000
+                        });
+                    } else {
+                        Message({
+                            message: res.msg,
+                            type: "error",
+                            duration: 3 * 1000
+                        });
+                    }
+                });
+            }
         }
     }
 

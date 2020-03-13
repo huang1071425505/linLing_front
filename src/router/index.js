@@ -7,12 +7,17 @@ Vue.use(Router)
 
 export const childrenMap = [
   {
-    // 测试1
+    // 用户管理
     path: 'sysUser',
     name: 'sysUser',
     component: _import('sys/sysUser.vue'),
   },
-
+  {
+    // 角色管理
+    path: 'sysRole',
+    name: 'sysRole',
+    component: _import('sys/sysRole/index'),
+  },
 ]
 export default new Router({
   mode: 'history',

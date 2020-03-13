@@ -13,4 +13,18 @@
 .pagination {
     text-align: center;
     max-height: 20;
-  }
+}
+/**添加**/
+.add {
+    float: right;
+    margin: 0px 20px 20px 0px;
+}
+/**input**/
+.searchInput {
+width: 250px;
+margin: 0px 0px 0px 0px;
+}
+/**tabel**/
+.tabel {
+    margin: 20px 20px 20px 0px;
+}
