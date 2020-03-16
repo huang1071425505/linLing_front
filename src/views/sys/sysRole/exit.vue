@@ -2,8 +2,8 @@
     <div>
         <el-dialog  title="新增" :visible.sync="visible" width="500px" :close-on-click-modal="false" @close='closeDialog'>
             <el-form ref="form" :rules="rules" :model="formData" label-width="100px" label-position="right">
-                <el-form-item label="角色code:" prop="roleCode">
-                    <el-input  placeholder="角色code" v-model="formData.roleCode"></el-input>
+                <el-form-item label="角色编号:" prop="roleCode">
+                    <el-input  placeholder="角色编号" v-model="formData.roleCode"></el-input>
                 </el-form-item>
                 <el-form-item label="角色名:" prop="roleName">
                     <el-input  placeholder="角色名" v-model="formData.roleName"></el-input>
@@ -31,7 +31,7 @@ export default {
                 roleDetails:"",
             },
             rules:{
-                roleCode: [{ required: true, message: '请输入角色code'}],
+                roleCode: [{ required: true, message: '请输入角色编号'}],
                 roleName: [{ required: true, message: '请输入角色名'}],
             },
             visible:false

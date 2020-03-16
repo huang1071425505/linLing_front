@@ -1,15 +1,9 @@
 <template>
     <div>
-        <el-dialog  title="新增" :visible.sync="visible" width="500px" :close-on-click-modal="false" @close='closeDialog'>
+        <el-dialog  title="分配" :visible.sync="visible" width="500px" :close-on-click-modal="false" @close='closeDialog'>
             <el-form ref="form" :rules="rules" :model="formData" label-width="100px" label-position="right">
-                <el-form-item label="角色编号:" prop="roleCode">
-                    <el-input  placeholder="角色编号" v-model="formData.roleCode"></el-input>
-                </el-form-item>
-                <el-form-item label="角色名:" prop="roleName">
-                    <el-input  placeholder="角色名" v-model="formData.roleName"></el-input>
-                </el-form-item>
-                <el-form-item label="角色详情:" prop="roleDetails">
-                    <el-input  placeholder="角色详情" v-model="formData.roleDetails"></el-input>
+                <el-form-item label="评审专家:" prop="roleName">
+                    <el-input  placeholder="评审专家" v-model="formData.userIds"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -25,37 +19,25 @@ import { Message } from 'element-ui';
 export default {
     data(){
         return{
-            formData:{
-                roleCode:"",
-                roleName:"",
-                roleDetails:"",
-            },
-            rules:{
-                roleCode: [{ required: true, message: '请输入角色编号'},
-                            { validator: YzRoleCode, trigger: 'blur' }],
-                roleName: [{ required: true, message: '请输入角色名'}],
-            },
+            formData:{},
+            rules:{},
             visible:false
-        }
-        function YzRoleCode(rule, value, callback){
-            fetch.get("/api/sysRole/yzRoleCode/"+value).then(res => {
-                if(res.code=="0"){
-                    return callback()
-                }else{
-                    return callback(new Error('存在重复code'))
-                }
-            })
-
         }
     },
     methods:{
-        init(){
-            this.visible=true;
+        init(r){
+            fetch.get("/api/xmProject/"+r.id).then(res => {
+                if(res.code=="0"){
+                    this.formData=res.data;
+                    this.visible=true;
+                }
+            })
         },
         save(form){
             this.$refs[form].validate(valid => {
                 if (valid) {
-                    fetch.post("/api/sysRole/save",this.formData).then(res => {
+                    delete this.formData.createDate
+                    fetch.post("/api/xmProject/distribute",this.formData).then(res => {
                         if (res.code == "0") {
                             Message({
                                 message: res.msg,
@@ -78,11 +60,7 @@ export default {
         },
         closeDialog(){
             this.visible=false;
-            this.formData={
-                roleCode:"",
-                roleName:"",
-                roleDetails:"",
-            }
+            this.formData={}
         },
     }
 }
