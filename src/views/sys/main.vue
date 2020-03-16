@@ -2,14 +2,14 @@
     <div>
         <el-container>
             <el-aside width="250px" :style="asideStyle">
-                <el-menu  class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+                <el-menu  class="el-menu-vertical-demo" :default-active="activeIndex" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
                     <el-submenu index="1">
                         <template slot="title">
                         <i class="iconfont zhanghaoguanli"></i>
                         <span slot="title">账号管理</span>
                         </template>
-                        <el-menu-item index="1-1" @click="ceshi('sysUser','系统用户')">系统用户</el-menu-item>
-                        <el-menu-item index="1-1" @click="ceshi('sysRole','角色管理')">角色管理</el-menu-item>
+                        <el-menu-item index="1-1" @click="card('1-1','sysUser','系统用户')">系统用户</el-menu-item>
+                        <el-menu-item index="1-2" @click="card('1-2','sysRole','角色管理')">角色管理</el-menu-item>
                     </el-submenu>
                     <el-menu-item index="2">
                         <i class="el-icon-menu"></i>
@@ -39,7 +39,7 @@
                     </div>
                 </el-header>
                 <el-main :style="mainStyle">
-                    <card ref="card"></card>
+                    <card ref="card" v-on:synchroData="synchroData"></card>
                 </el-main>
                 <el-footer></el-footer>
             </el-container>
@@ -63,7 +63,8 @@ export default {
             clientHeight:0,
             asideStyle:"",
             mainStyle:"",
-            userInfo:{}
+            userInfo:{},
+            activeIndex:""
         }
     },
     created(){
@@ -72,8 +73,8 @@ export default {
         this.mainStyle="height:"+(document.documentElement.clientHeight*0.8)+"px";
     },
     methods:{
-        ceshi(url,title){
-            this.$refs.card.addTab(url,title);
+        card(index,url,title){
+            this.$refs.card.addTab(index,url,title);
         },
         //菜单展开
         handleOpen(r){
@@ -103,7 +104,11 @@ export default {
                     }
                 });
             }
-        }
+        },
+        //数据同步
+        synchroData(index){
+            this.activeIndex=index;
+        },
     }
 
 }
