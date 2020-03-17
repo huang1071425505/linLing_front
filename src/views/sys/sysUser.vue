@@ -30,23 +30,22 @@
             </el-form-item >
             <el-row>
                 <el-col :span="5">
-                    <el-form-item label="角色：" prop="userRole" :required="true" >
-                        <el-select v-model="addUser.userRole" placeholder="请选择" style="width:100px;">
+                    <el-form-item label="角色：" prop="userRoleId" :required="true" >
+                        <el-select v-model="addUser.userRoleId" placeholder="请选择" style="width:100px;">
                             <el-option v-for="item in roleSelections" :label="item.label" :value="item.value" :key="item.value">{{item.label}}</el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
-                <el-col :span="5"></el-col>
-                <el-col :span="5">
-                    <el-form-item label="状态：" prop="userState" :required="true">
-                        <el-select v-model="addUser.userState" placeholder="请选择" style="width:100px;margin-left:100px">
+                <el-col :span="14">
+                    <el-form-item label="状态：" prop="userState" :required="true" style="margin-left:100px">
+                        <el-select v-model="addUser.userState" placeholder="请选择" style="width:100px;">
                             <el-option v-for="item in stateSelections" :label="item.label" :value="item.value" :key="item.value">{{item.label}}</el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-form-item label="备注：" prop="userNote">
-                <el-input class="dialogInput" v-model="addUser.userNote" auto-complete="off"></el-input>
+            <el-form-item label="备注：" prop="userDetail">
+                <el-input type="textarea" :autosize="{minRows:1,maxRows:3}" class="dialogInput" v-model="addUser.userDetail" auto-complete="off"></el-input>
             </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -60,9 +59,8 @@
             <el-table-column  prop="userCode" label="账号"  align="center"></el-table-column>
             <el-table-column prop="userName" label="姓名" align="center"></el-table-column>
             <el-table-column prop="userPhone" label="联系电话" min-width="160" align="center"></el-table-column>
-            <el-table-column prop="userDepartment" label="院系" min-width="180" align="center"></el-table-column>
-            <el-table-column prop="userRole" label="角色" width="100" align="center"></el-table-column>
-            <el-table-column prop="userNote" label="备注" min-width="180" align="center"></el-table-column>
+            <el-table-column prop="userRoleId" label="角色" width="100" align="center"></el-table-column>
+            <el-table-column prop="userDetails" label="备注" min-width="180" align="center"></el-table-column>
             <el-table-column prop="userState" label="状态" width="50" align="center"></el-table-column>
             <el-table-column prop="userOperate" label="操作" min-width="180" align="center">
                 <template slot-scope="tableData">
@@ -83,8 +81,9 @@ export default {
     data(){
         return{
             dialogFormVisible:false,
-            idInput:'',
+            idInput:'',  
             nameInput:'',
+            textarea: '',
             tableData:[],
             // 页面相关
             pageProperty: {
@@ -104,11 +103,10 @@ export default {
                 userCode:"",
                 userName:"",
                 userPassword:"",
-                userRole:"",
+                userRoleId:"",
                 userState:"",
-                userNote:"",
-                userPhone:"",
-                userDepartment:""
+                userDetails:"",
+                userPhone:""
             },
             roleSelections:[
                 {
