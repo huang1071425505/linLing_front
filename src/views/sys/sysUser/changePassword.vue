@@ -97,6 +97,8 @@ export default {
         },
         closeDialog(){
             this.visible=false;
+            // 清空验证
+            this.$refs['form'].clearValidate();
             this.formData={
                 //原密码
                 yPassword:"",

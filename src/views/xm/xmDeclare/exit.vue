@@ -1,12 +1,12 @@
 <template>
     <div>
-        <el-dialog  title="修改" :visible.sync="visible" width="1050px" :close-on-click-modal="false" @close='closeDialog'>
-            <el-form ref="form" :rules="rules" :model="formData" label-width="100px" label-position="right">
+        <el-dialog  title="修改" :visible.sync="visible" v-if="visible" width="1050px" :close-on-click-modal="false" @close='closeDialog'>
+            <el-form ref="form" :rules="rules" :model="formData" label-width="120px" label-position="right">
                 
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="项目编号:" prop="projectCode">
-                            <el-input  placeholder="项目编号" v-model="formData.projectCode"></el-input>
+                            <el-input  placeholder="项目编号（只能为数字）" v-model="formData.projectCode" onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -18,7 +18,7 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="年度:" prop="projectYear">
-                            <el-input  placeholder="年度" v-model="formData.projectYear"></el-input>
+                            <el-date-picker style="width:385px;" type="year" placeholder="选择年度" v-model="formData.projectYear"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -30,7 +30,9 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="指导教师:" prop="projectTeacherId">
-                            <el-input  placeholder="指导教师" v-model="formData.projectTeacherId"></el-input>
+                            <el-select  placeholder="指导教师" multiple filterable v-model="formData.projectTeacherId" style="width:385px;">
+                                <el-option v-for="item in teacherOpt" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -67,14 +69,30 @@ export default {
                 projectName:"",
                 projectYear:"",
                 projectField:"",
-                projectTeacherId:null,
+                projectTeacherId:[],
                 projectFunds:"",
                 projectIntroduce:"",
                 projectRemark:"",
                 acceptanceOpinion:"",
             },
             rules:{
+                projectCode:[{required:true,message:'项目编号不能为空'}],
+                projectName:[{required:true,message:'项目名称不能为空'}],
+                projectYear:[{required:true,message:'年度不能为空'}],
+                projectField:[{required:true,message:'所属领域不能为空'}],
+                projectTeacherId:[{required:true,message:'指导教师不能为空'}],
+                projectFunds:[{required:true,message:'经费不能为空'}],
+                projectIntroduce:[{required:true,message:'项目介绍不能为空'}],
             },
+            teacherOpt:[
+                {
+                    value: 1,
+                    label:'张文'
+                },{
+                    value: 2,
+                    label: '蒋英'
+                }
+            ],
             visible:false
         }
     },
@@ -114,6 +132,8 @@ export default {
         },
         closeDialog(){
             this.visible=false;
+            // 清空验证
+            this.$refs['form'].clearValidate();
             this.formData={
                 projectCode:"",
                 projectName:"",
