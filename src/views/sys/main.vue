@@ -3,15 +3,44 @@
         <el-container>
             <el-aside width="250px" :style="asideStyle">
                 <el-menu  class="el-menu-vertical-demo" :default-active="activeIndex" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
-                    <el-submenu index="1">
-                        <template slot="title">
-                        <i class="iconfont zhanghaoguanli"></i>
-                        <span slot="title">账号管理</span>
-                        </template>
-                        <el-menu-item index="1-1" @click="card('1-1','sysUser','系统用户')">系统用户</el-menu-item>
+                    <div v-for="(item,index) in menuData" :key="index">
+                        <div v-if="item.children!=undefined">
+                            <el-submenu  :index="index+''">
+                                <template slot="title">
+                                    <i class="iconfont zhanghaoguanli"></i>
+                                    <span slot="title">{{item.menuName}}</span>
+                                </template>
+                                <div v-for="(item1,index1) in item.children" :key="index1">
+                                    <div v-if="item1.children!=undefined">
+                                        <el-submenu  :index="index+'-'+index1">
+                                            <template slot="title">
+                                                <i class="iconfont zhanghaoguanli"></i>
+                                                <span slot="title">{{item1.menuName}}</span>
+                                            </template>
+                                            <div v-for="(item2,index2) in item.children" :key="index2">
+                                                <el-menu-item :index="index+'-'+index1+'-'+index2" @click="card(index+'-'+index1+'-'+index2,item2.menuUrl,item2.menuName)">{{item2.menuName}}</el-menu-item>
+                                            </div>
+                                        </el-submenu>
+                                    </div>
+                                    <div v-else>
+                                        <el-menu-item :index="index+'-'+index1" @click="card(index+'-'+index1,item1.menuUrl,item1.menuName)">{{item1.menuName}}</el-menu-item>
+                                    </div>
+                                </div>
+                            </el-submenu>
+                        </div>
+                        <div v-else>
+                            <el-menu-item :index="index+''">
+                                <i class="el-icon-setting" @click="card(index,item.menuUrl,item.menuName)"></i>
+                                <span slot="title">{{item.menuName}}</span>
+                            </el-menu-item>
+                        </div>
+                    </div>
+                           
+                        
+                        <!-- <el-menu-item index="1-1" @click="card('1-1','sysUser','系统用户')">系统用户</el-menu-item>
                         <el-menu-item index="1-2" @click="card('1-2','sysRole','角色管理')">角色管理</el-menu-item>
-                    </el-submenu>
-                    <el-submenu index="2">
+                        <el-menu-item index="1-3" @click="card('1-3','sysMenu','菜单管理')">菜单管理</el-menu-item> -->
+                    <!-- <el-submenu index="2">
                         <template slot="title">
                         <i class="el-icon-menu"></i>
                         <span slot="title">项目管理</span>
@@ -23,15 +52,7 @@
                         <el-menu-item index="2-5" @click="card('2-5','xmProgress','项目进展')">项目进展</el-menu-item>
                         <el-menu-item index="2-6" @click="card('2-6','xmGuidance','指导记录')">指导记录</el-menu-item>
                         <el-menu-item index="2-7" @click="card('2-7','xmConclud','项目结题')">项目结题</el-menu-item>
-                    </el-submenu>
-                    <el-menu-item index="3">
-                        <i class="el-icon-document"></i>
-                        <span slot="title">项目过程</span>
-                    </el-menu-item>
-                    <el-menu-item index="4">
-                        <i class="el-icon-setting"></i>
-                        <span slot="title">双创信息</span>
-                    </el-menu-item>
+                    </el-submenu> -->
                 </el-menu>
             </el-aside>
             <el-container>
@@ -58,7 +79,10 @@
 </template>
 
 <script>
+import fetch from '@/utils/fetch'
 import { Message } from 'element-ui';
+
+import {toTree} from '@/utils/comment'
 import card from './card';
 import changePassword from './sysUser/changePassword';
 export default {
@@ -73,15 +97,26 @@ export default {
             asideStyle:"",
             mainStyle:"",
             userInfo:{},
-            activeIndex:""
+            activeIndex:"",
+            menuData:[],
         }
     },
     created(){
         this.userInfo=this.$store.state;
         this.asideStyle="height:"+document.documentElement.clientHeight+"px";
         this.mainStyle="height:"+(document.documentElement.clientHeight*0.8)+"px";
+        this.getMenuPermissions();
     },
     methods:{
+        //获取菜单权限
+        getMenuPermissions(){
+            fetch.get("api/sysMenu/menuPermissions").then(res=>{
+                if(res.code=="0"){
+                    this.menuData=toTree(res.data,0,"id","menuName","menuPid")
+                    console.log(this.menuData)
+                }
+            })
+        },
         card(index,url,title){
             this.$refs.card.addTab(index,url,title);
         },

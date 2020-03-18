@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-input placeholder="角色名..." v-model="search.roleName" class="searchInput"></el-input>
+        <el-input placeholder="角色名" v-model="search.roleName" class="searchInput"></el-input>
         <el-button style="margin-left:10px" type="primary" icon="el-icon-search" size="small" @click="handleSearch">搜索</el-button>
         <div class="add">
             <el-button style="margin-left:10px" type="primary" icon="el-icon-plus" size="small" @click="addDialog()">新增</el-button>
@@ -136,7 +136,6 @@ export default {
                             type: "success",
                             duration: 5 * 1000
                         });
-                        console.log(11111)
                         this.getDataList();
                     } else {
                         Message({
