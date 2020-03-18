@@ -77,7 +77,7 @@ export default {
         });
         this.$emit("synchroData",xzIndex);
         if(activeUrl!=""){
-            if((dqIndex+1)!=parseInt(this.editableTabsValue)&&(dqIndex-1)!=parseInt(this.editableTabsValue)){
+            if((dqIndex+1)!=parseInt(this.editableTabsValue)||(dqIndex-1)!=parseInt(this.editableTabsValue)){
                 this.$router.push(activeUrl)
             }
         }else{

@@ -15,13 +15,19 @@ export const childrenMap = [
     // 用户管理
     path: 'sysUser',
     name: 'sysUser',
-    component: _import('sys/sysUser.vue'),
+    component: _import('sys/sysUser/index'),
   },
   {
     // 角色管理
     path: 'sysRole',
     name: 'sysRole',
     component: _import('sys/sysRole/index'),
+  },
+  {
+    // 菜单管理
+    path: 'sysMenu',
+    name: 'sysMenu',
+    component: _import('sys/sysMenu/index'),
   },
   {
     // 项目申报
