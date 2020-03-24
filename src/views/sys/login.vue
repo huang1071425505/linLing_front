@@ -1,5 +1,6 @@
 <template>
-    <div class="loginContainer" >
+    <div class="loginContainer" :style="{ 'background': 'url(static/image/sys/back.gif) no-repeat center center', 'background-size': '100% 100%'}">
+        <div class="loginTitie">双创项目管理系统</div>
         <el-form class="loginForm" ref="loginForm" :model="form" :rules="rules" label-position="left">
             <el-form-item prop="userCode" class="loginElement">
                 <el-input  prefix-icon="iconfont zhanghao" class="loginInput" v-model="form.userCode"  type="text"  placeholder="请输入账号" ></el-input>
@@ -74,6 +75,13 @@ export default {
 </script>
 
 <style scoped>
+    .loginTitie {
+        position: absolute;
+        left: 0;
+        padding-left: 25%;
+        margin: 37vh auto 0 auto;
+        font-size:50px
+    }
     .loginContainer {
     position: relative;
     height: 100vh;
