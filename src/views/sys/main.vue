@@ -7,30 +7,36 @@
                         <div v-if="item.children!=undefined">
                             <el-submenu  :index="index+''">
                                 <template slot="title">
-                                    <i class="iconfont zhanghaoguanli"></i>
+                                    <i :class="item.menuIcon"></i>
                                     <span slot="title">{{item.menuName}}</span>
                                 </template>
                                 <div v-for="(item1,index1) in item.children" :key="index1">
                                     <div v-if="item1.children!=undefined">
                                         <el-submenu  :index="index+'-'+index1">
                                             <template slot="title">
-                                                <i class="iconfont zhanghaoguanli"></i>
+                                                <i :class="item.menuIcon"></i>
                                                 <span slot="title">{{item1.menuName}}</span>
                                             </template>
                                             <div v-for="(item2,index2) in item.children" :key="index2">
-                                                <el-menu-item :index="index+'-'+index1+'-'+index2" @click="card(index+'-'+index1+'-'+index2,item2.menuUrl,item2.menuName)">{{item2.menuName}}</el-menu-item>
+                                                <el-menu-item :index="index+'-'+index1+'-'+index2" @click="card(index+'-'+index1+'-'+index2,item2.menuUrl,item2.menuName)">
+                                                    <i :class="item2.menuIcon" ></i>
+                                                    <span slot="title">{{item2.menuName}}</span>
+                                                </el-menu-item>
                                             </div>
                                         </el-submenu>
                                     </div>
                                     <div v-else>
-                                        <el-menu-item :index="index+'-'+index1" @click="card(index+'-'+index1,item1.menuUrl,item1.menuName)">{{item1.menuName}}</el-menu-item>
+                                        <el-menu-item :index="index+'-'+index1" @click="card(index+'-'+index1,item1.menuUrl,item1.menuName)">
+                                            <i :class="item1.menuIcon" ></i>
+                                            <span slot="title">{{item1.menuName}}</span>
+                                        </el-menu-item>
                                     </div>
                                 </div>
                             </el-submenu>
                         </div>
                         <div v-else>
-                            <el-menu-item :index="index+''">
-                                <i class="el-icon-setting" @click="card(index,item.menuUrl,item.menuName)"></i>
+                            <el-menu-item :index="index+''" @click="card(index,item.menuUrl,item.menuName)">
+                                <i :class="item.menuIcon" ></i>
                                 <span slot="title">{{item.menuName}}</span>
                             </el-menu-item>
                         </div>
@@ -162,7 +168,7 @@ export default {
 
 .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
-    min-height: 400px;
+    height: 100%;
   }
   .iconfont {
       width: 30px;
