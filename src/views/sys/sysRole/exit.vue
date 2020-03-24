@@ -53,7 +53,7 @@ export default {
                     fetch.get("/api/sysRole/yzRoleCode1/"+this.formData.roleCode+"/"+this.formData.roleId).then(res => {
                         if(res.code=="1"){
                             Message({
-                                message: "存在重复code",
+                                message: "存在重复编号",
                                 type: "error",
                                 duration: 3 * 1000
                             });

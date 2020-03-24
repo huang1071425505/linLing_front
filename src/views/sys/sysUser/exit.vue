@@ -216,24 +216,36 @@ export default {
                 if (valid) {
                     this.formData.roleIds=this.formData.roleId+"";
                     console.log(this.formData.roleIds)
-                    fetch.post("/api/sysUsers/save",this.formData).then(res => {
-                        if (res.code == "0") {
+                    fetch.get("/api/sysUsers/yzRoleCode1/"+this.formData.userCode+"/"+this.formData.userId).then(res => {
+                        if(res.code=="1"){
                             Message({
-                                message: res.msg,
-                                type: "success",
-                                duration: 3 * 1000
-                            });
-                            // 更新信息
-                            this.$emit("loadData");
-                            this.closeDialog();
-                        } else {
-                            Message({
-                                message: res.msg,
+                                message: "存在重复账号",
                                 type: "error",
                                 duration: 3 * 1000
                             });
+                            return
+                        }else{
+                            fetch.post("/api/sysUsers/save",this.formData).then(res => {
+                                if (res.code == "0") {
+                                    Message({
+                                        message: res.msg,
+                                        type: "success",
+                                        duration: 3 * 1000
+                                    });
+                                    // 更新信息
+                                    this.$emit("loadData");
+                                    this.closeDialog();
+                                } else {
+                                    Message({
+                                        message: res.msg,
+                                        type: "error",
+                                        duration: 3 * 1000
+                                    });
+                                }
+                            })
                         }
                     })
+                    
                 }
             })
         },
