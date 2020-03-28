@@ -8,6 +8,7 @@
         <div class="tabel">
             <el-table ref="table" header-row-class-name="table-header-row" cell-class-name="cell-row" :data="tableData" border stripe fit highlight-current-row v-loading="listLoading" element-loading-text="正在加载中……">
                 <el-table-column align="center" label="序号" type="index" :index="indexMethod" width="65"></el-table-column>
+                <el-table-column align="center" prop="roleCode" label="角色编号"  min-width="90"></el-table-column>
                 <el-table-column align="center" prop="roleName" label="角色名"  min-width="90"></el-table-column>
                 <el-table-column align="center" label="操作"  min-width="150">
                     <template slot-scope="scope">
@@ -124,7 +125,7 @@ export default {
         },
         //删除
         delDialog(r){
-            this.$confirm("是否删除该活动", "提示", {
+            this.$confirm("是否删除该角色", "提示", {
                 type: "warning",
                 confirmButtonText: "确定",
                 cancelButtonText: "取消"

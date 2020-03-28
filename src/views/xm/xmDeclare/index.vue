@@ -8,17 +8,18 @@
         <div class="tabel">
             <el-table ref="table" header-row-class-name="table-header-row" cell-class-name="cell-row" :data="tableData" border stripe fit highlight-current-row v-loading="listLoading" element-loading-text="正在加载中……">
                 <el-table-column align="center" label="序号" type="index" :index="indexMethod" width="65"></el-table-column>
+                <el-table-column align="center" prop="projectCode" label="项目编号"  min-width="90"></el-table-column>
                 <el-table-column align="center" prop="projectName" label="项目名称"  min-width="90"></el-table-column>
+                <el-table-column align="center" prop="projectField" label="项目所属领域"  min-width="90"></el-table-column>
+                <el-table-column align="center" prop="projectYear" label="年度"  min-width="90"></el-table-column>
                 <el-table-column align="center" prop="projectState" label="项目状态"  min-width="90">
                     <template slot-scope="scope">
                         {{stateShow(scope.row.projectState)}}
                     </template>
-                                        
                 </el-table-column>
                 <el-table-column align="center" label="操作"  min-width="150">
-                    <template>
-                        <!-- <el-button type="text" @click="exitDialog(scope.row)" icon="el-icon-edit">修改</el-button> -->
-                        <!-- <el-button type="text" @click="delDialog(scope.row)" icon="el-icon-warning">删除</el-button> -->
+                    <template slot-scope="scope">
+                        <el-button type="text" @click="detailsDialog(scope.row)" icon="el-icon-tickets">详情</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -26,6 +27,7 @@
         </div>
         <add ref="add" v-on:loadData="getDataList"></add>
         <exit ref="exit" v-on:loadData="getDataList"></exit>
+        <details1 ref="details1" v-on:loadData="getDataList"></details1>
     </div>
 </template>
 <script>
@@ -35,10 +37,12 @@ import { Message } from 'element-ui';
 
 import add from './add'
 import exit from './exit'
+import details1 from './details'
 export default {
     components:{
         add,
-        exit
+        exit,
+        details1
     },
     data(){
         return{
@@ -126,13 +130,14 @@ export default {
         addDialog(){
             this.$refs.add.init();
         },
-        //修改
-        exitDialog(r){
-            this.$refs.exit.init(r);
+        //详情
+        detailsDialog(r){
+            console.log()
+            this.$refs.details1.init(r);
         },
         //删除
         delDialog(r){
-            this.$confirm("是否删除该活动", "提示", {
+            this.$confirm("是否删除该项目", "提示", {
                 type: "warning",
                 confirmButtonText: "确定",
                 cancelButtonText: "取消"
@@ -166,6 +171,8 @@ export default {
                 return "项目进行中";
             }else if(projectState=="6"){
                 return "项目结束";
+            }else if(projectState=="7"){
+                return "项目完成";
             }
         }
     }

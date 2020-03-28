@@ -126,6 +126,7 @@ export default {
             },
             rules:{
                 userCode: [{ required: true, message: '请输入用户编号'},
+                            { pattern: /^[a-z0-9]+$/, message: "请输入数字" },
                             { validator: YzUserCode, trigger: 'blur' }],
                 userName: [{ required: true, message: '请输入用户名称'}],
                 userPhone: [{ required: true, message: '请输入用户电话'},

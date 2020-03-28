@@ -32,6 +32,7 @@ export default {
             },
             rules:{
                 roleCode: [{ required: true, message: '请输入角色编号'},
+                            { pattern: /^[a-z0-9]+$/, message: "请输入数字" },
                             { validator: YzRoleCode, trigger: 'blur' }],
                 roleName: [{ required: true, message: '请输入角色名'}],
             },

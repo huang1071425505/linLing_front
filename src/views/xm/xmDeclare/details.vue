@@ -1,55 +1,54 @@
 <template>
     <div>
-        <el-dialog  title="新增" :visible.sync="visible" v-if="visible" width="1050px" :close-on-click-modal="false" @close="closeDialog">
+        <el-dialog  title="详情" :visible.sync="visible" v-if="visible" width="1050px" :close-on-click-modal="false" @close="closeDialog">
             <el-form ref="form" :rules="rules" :model="formData" label-width="120px" label-position="right">               
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="项目编号:" prop="projectCode">
-                            <el-input  placeholder="项目编号" v-model="formData.projectCode" number></el-input>
+                            <el-input  placeholder="项目编号" v-model="formData.projectCode" disabled></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="项目名称:" prop="projectName">
-                            <el-input  placeholder="项目名称" v-model="formData.projectName"></el-input>
+                            <el-input  placeholder="项目名称" v-model="formData.projectName" disabled></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="年度:" prop="projectYear">
-                            <el-date-picker style="width:385px;" type="year" placeholder="选择年度" v-model="formData.projectYear"></el-date-picker>
+                            <el-date-picker style="width:385px;" type="year" placeholder="选择年度" v-model="formData.projectYear" disabled></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="项目所属领域:" prop="projectField">
-                            <el-input  placeholder="项目所属领域" v-model="formData.projectField"></el-input>
+                            <el-input  placeholder="项目所属领域" v-model="formData.projectField" disabled></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="指导教师:" prop="projectTeacherId">
-                            <el-select  placeholder="指导教师"  filterable v-model="formData.projectTeacherId" style="width:385px;" @change="selectChange">
+                            <el-select  placeholder="指导教师"  filterable v-model="formData.projectTeacherId" style="width:385px;"  disabled>
                                 <el-option v-for="item in teacherList" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="项目经费:" prop="projectFunds">
-                            <el-input-number v-model="formData.projectFunds"  :min="0" :max="1000000" placeholder="项目经费"></el-input-number>
+                            <el-input-number v-model="formData.projectFunds"  :min="0" :max="1000000" placeholder="项目经费" disabled></el-input-number>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-form-item label="项目介绍:" prop="projectIntroduce">
-                    <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}"  placeholder="项目介绍" v-model="formData.projectIntroduce"></el-input>
+                    <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}"  placeholder="项目介绍" v-model="formData.projectIntroduce" disabled></el-input>
                 </el-form-item>
                 <el-form-item label="备注:" prop="projectRemark">
-                    <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}"  placeholder="备注" v-model="formData.projectRemark"></el-input>
+                    <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}"  placeholder="备注" v-model="formData.projectRemark" disabled></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="closeDialog">取消</el-button>
-                <el-button type="primary" @click="save('form')">新增</el-button>
             </div>
         </el-dialog>
     </div>
@@ -95,9 +94,14 @@ export default {
         }
     },
     methods:{
-        init(){
-            this.visible=true;
-            this.getTeacherList();
+        init(r){
+            fetch.get("/api/xmProject/"+r.id).then(res => {
+                if(res.code=="0"){
+                    this.getTeacherList();
+                    this.formData=res.data;
+                    this.visible=true;
+                }
+            })
         },
         //获取指导老师列表
         getTeacherList(){
@@ -110,39 +114,6 @@ export default {
                             value:res.data[index].userId
                         })
                     }
-                }
-            })
-        },
-        //下拉框选择变动事件
-        selectChange(r){
-            for(var index in this.teacherList){
-                if(this.teacherList[index].value==r){
-                    this.formData.projectTeacherName=this.teacherList[index].label;
-                }
-            }
-        },
-        save(form){
-            this.$refs[form].validate(valid => {
-                if (valid) {
-                    this.formData.projectYear=this.$moment( this.formData.projectYear).format("YYYY")
-                    fetch.post("/api/xmProject/save",this.formData).then(res => {
-                        if (res.code == "0") {
-                            Message({
-                                message: res.msg,
-                                type: "success",
-                                duration: 3 * 1000
-                            });
-                            // 更新信息
-                            this.$emit("loadData");
-                            this.closeDialog();
-                        } else {
-                            Message({
-                                message: res.msg,
-                                type: "error",
-                                duration: 3 * 1000
-                            });
-                        }
-                    })
                 }
             })
         },

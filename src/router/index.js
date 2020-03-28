@@ -71,6 +71,24 @@ export const childrenMap = [
     name: 'xmConclud',
     component: _import('xm/xmConclud/index'),
   },
+  {
+    // 双创课程
+    path: 'scCourse',
+    name: 'scCourse',
+    component: _import('sc/scCourse/index'),
+  },
+  {
+    // 双创政策
+    path: 'scPolicy',
+    name: 'scPolicy',
+    component: _import('sc/scPolicy/index'),
+  },
+  {
+    // 双创新闻
+    path: 'scNews',
+    name: 'scNews',
+    component: _import('sc/scNews/index'),
+  },
 ]
 export default new Router({
   mode: 'history',
