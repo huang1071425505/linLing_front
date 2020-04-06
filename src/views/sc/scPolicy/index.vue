@@ -8,16 +8,8 @@
         <div class="tabel">
             <el-table ref="table" header-row-class-name="table-header-row" cell-class-name="cell-row" :data="tableData" border stripe fit highlight-current-row v-loading="listLoading" element-loading-text="正在加载中……">
                 <el-table-column align="center" label="序号" type="index" :index="indexMethod" width="65"></el-table-column>
-                <el-table-column align="center" prop="courseName" label="课程名称"  min-width="90"></el-table-column>
-                <el-table-column align="center" prop="userName" label="任课老师"  min-width="90"></el-table-column>
-                <el-table-column align="center" prop="courseDate" label="上课时间"  min-width="90">
-                    <template slot-scope="scope">
-                        <div v-if="scope.row.courseDate!=null&&scope.row.courseDate!=''">
-                            {{$moment(scope.row.courseDate).format("YYYY-MM-DD HH:mm:ss")}}
-                        </div>
-                        <div v-else ></div>
-                    </template>
-                </el-table-column>
+                <el-table-column align="center" prop="policyName" label="政策名称"  min-width="90"></el-table-column>
+                <el-table-column align="center" prop="releaseBm" label="发布部门"  min-width="90"></el-table-column>
                 <el-table-column align="center" label="操作"  min-width="150">
                     <template slot-scope="scope">
                         <el-button type="text" @click="seeDialog(scope.row)" icon="el-icon-tickets">查看</el-button>
@@ -79,7 +71,7 @@ export default {
             return new Promise((resolve, reject) => {
                 this.listLoading = true;
                 this.pageProperty.parameters = this.search;
-                fetch.post("/api/scCourse/page",this.pageProperty,
+                fetch.post("/api/scPolicy/page",this.pageProperty,
                     {
                         // 自定义头
                         headers: {
@@ -136,7 +128,7 @@ export default {
                 confirmButtonText: "确定",
                 cancelButtonText: "取消"
             }).then(() => {
-                fetch.get("/api/scCourse/state/" + r.id).then(res => {
+                fetch.get("/api/scPolicy/state/" + r.id).then(res => {
                     if (res.code == "0") {
                         Message({
                             message: res.msg,

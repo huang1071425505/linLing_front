@@ -127,7 +127,7 @@ export default {
                 confirmButtonText: "确定",
                 cancelButtonText: "取消"
             }).then(() => {
-                fetch.get("/api/scCourse/state/" + r.id).then(res => {
+                fetch.get("/api/scNews/state/" + r.id).then(res => {
                     if (res.code == "0") {
                         Message({
                             message: res.msg,
