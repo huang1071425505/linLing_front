@@ -5,7 +5,19 @@
         <div class="tabel">
             <el-table ref="table" header-row-class-name="table-header-row" cell-class-name="cell-row" :data="tableData" border stripe fit highlight-current-row v-loading="listLoading" element-loading-text="正在加载中……">
                 <el-table-column align="center" label="序号" type="index" :index="indexMethod" width="65"></el-table-column>
+                <el-table-column align="center" prop="projectCode" label="项目编号"  min-width="90"></el-table-column>
                 <el-table-column align="center" prop="projectName" label="项目名称"  min-width="90"></el-table-column>
+                <el-table-column align="center" prop="projectStudentName" label="申报学生"  min-width="90"></el-table-column>
+                <el-table-column align="center" prop="projectField" label="项目所属领域"  min-width="90"></el-table-column>
+                <el-table-column align="center" prop="projectYear" label="年度"  min-width="90"></el-table-column>
+                <el-table-column align="center" prop="createDate" label="创建时间"  min-width="90">
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.createDate!=null&&scope.row.createDate!=''">
+                            {{$moment(scope.row.createDate).format("YYYY-MM-DD")}}
+                        </div>
+                        <div v-else ></div>
+                    </template>
+                </el-table-column>
                 <el-table-column align="center" prop="projectState" label="项目状态"  min-width="90">
                     <template slot-scope="scope">
                         {{stateShow(scope.row.projectState)}}
@@ -21,14 +33,18 @@
             </el-table>
             <el-pagination class="pagination" @current-change="handleClick" @size-change="handleSizeChange" :current-page="pageProperty.page" :page-sizes="[10, 20, 50]" layout="total, sizes, prev, pager, next, jumper" :total="pageProperty.totalElements"></el-pagination>
         </div>
+        <record ref="record"></record>
     </div>
 </template>
 <script>
 import fetch from '@/utils/fetch'
 import { Loading } from "element-ui"
 import { Message } from 'element-ui';
+
+import record from './record'
 export default {
     components:{
+        record
     },
     data(){
         return{
@@ -50,7 +66,8 @@ export default {
             },
             search:{
                 projectName:"",
-                projectState:"5"
+                projectState:"5",
+                dqUser:"1"
             },
             tableData:[]
         }
@@ -122,10 +139,12 @@ export default {
                 return "项目进行中";
             }else if(projectState=="6"){
                 return "项目结束";
+            }else if(projectState=="7"){
+                return "项目完成";
             }
         },
         progress(r){
-
+            this.$refs.record.init(r);
         },
         end(r){
             this.$confirm("是否结束该项目", "提示", {

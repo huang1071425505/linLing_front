@@ -1,12 +1,9 @@
 <template>
     <div>
-        <el-dialog  title="评审" :visible.sync="visible" width="500px" :close-on-click-modal="false" @close='closeDialog'>
+        <el-dialog  title="新增" :visible.sync="visible1" width="500px" :close-on-click-modal="false" :append-to-body='true' @close='closeDialog'>
             <el-form ref="form" :rules="rules" :model="formData" label-width="100px" label-position="right">
-                <el-form-item label="评审分数:" prop="examineFraction">
-                            <el-input-number v-model="formData.examineFraction"  :min="0" :max="100" placeholder="评审分数"></el-input-number>
-                        </el-form-item>
-                <el-form-item label="评审意见:" prop="examineOpinion">
-                    <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}"  placeholder="评审意见" v-model="formData.examineOpinion"></el-input>
+                <el-form-item label="进展记录:" prop="processRecord">
+                    <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}"  placeholder="进展记录" v-model="formData.processRecord"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -22,31 +19,29 @@ import { Message } from 'element-ui';
 export default {
     data(){
         return{
-            formData:{},
-            rules:{
-                examineFraction:[{required:true,message:'评审分数不能为空'}],
-                examineOpinion:[{required:true,message:'评审意见不能为空'}],
+            formData:{
+                processRecord:"",
+                projectId:"",
             },
-            visible:false
+            rules:{
+                processRecord:[{required:true,message:'进展记录不能为空'}],
+            },
+            visible1:false,
         }
     },
     methods:{
-        init(r){
-            fetch.get("/api/xmProjectExamine/"+r.id).then(res => {
-                if(res.code=="0"){
-                    this.formData=res.data;
-                    this.visible=true;
-                }
-            })
+        init(projectId){
+            this.formData.projectId=projectId;
+            this.visible1=true;
         },
         save(form){
             this.$refs[form].validate(valid => {
                 if (valid) {
-                    delete this.formData.examineDate
-                    fetch.post("/api/xmProjectExamine/save",this.formData).then(res => {
+                    this.formData.recordType="进展记录";
+                    fetch.post("/api/xmProjectProcess/save",this.formData).then(res => {
                         if (res.code == "0") {
                             Message({
-                                message:"评审成功",
+                                message:"新增成功",
                                 type: "success",
                                 duration: 3 * 1000
                             });
@@ -55,7 +50,7 @@ export default {
                             this.closeDialog();
                         } else {
                             Message({
-                                message: "评审失败",
+                                message: "新增失败",
                                 type: "error",
                                 duration: 3 * 1000
                             });
@@ -65,8 +60,11 @@ export default {
             })
         },
         closeDialog(){
-            this.visible=false;
-            this.formData={}
+            this.visible1=false;
+            this.formData={
+                processRecord:"",
+                projectId:"",
+            }
         },
     }
 }

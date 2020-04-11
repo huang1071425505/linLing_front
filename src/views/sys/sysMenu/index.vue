@@ -13,6 +13,9 @@
                     <el-form-item label="菜单路径：" prop="menuUrl">
                         <el-input placeholder="菜单路径" v-model="formData.menuUrl" ></el-input>
                     </el-form-item >
+                    <el-form-item label="菜单图标：" prop="menuIcon">
+                        <el-input placeholder="菜单图标" v-model="formData.menuIcon" ></el-input>
+                    </el-form-item >
                     <el-form-item label="菜单排序：" prop="menuOrder">
                         <el-slider v-model="formData.menuOrder" :max="50"></el-slider>
                     </el-form-item >

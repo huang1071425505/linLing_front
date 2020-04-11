@@ -5,7 +5,21 @@
 </template>
 
 <script>
+import {
+    setUserInfo,
+    getUserInfo,
+  } from '@/utils/cookies'
 export default {
+    created(){
+        //在页面加载时读取getUserInfo里的状态信息
+        if (getUserInfo() ) {
+            this.$store.replaceState(Object.assign({}, this.$store.state,JSON.parse(getUserInfo())))
+        }
+        this.$router.push("/")
+        window.addEventListener('beforeunload',()=>{
+            setUserInfo(JSON.stringify(this.$store.state))
+        })
+    },
 
 }
 </script>

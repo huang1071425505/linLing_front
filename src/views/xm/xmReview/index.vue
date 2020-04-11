@@ -9,7 +9,19 @@
         <div class="tabel">
             <el-table ref="table" header-row-class-name="table-header-row" cell-class-name="cell-row" :data="tableData" border stripe fit highlight-current-row v-loading="listLoading" element-loading-text="正在加载中……">
                 <el-table-column align="center" label="序号" type="index" :index="indexMethod" width="65"></el-table-column>
+                <el-table-column align="center" prop="projectCode" label="项目编号"  min-width="90"></el-table-column>
                 <el-table-column align="center" prop="projectName" label="项目名称"  min-width="90"></el-table-column>
+                <el-table-column align="center" prop="projectStudentName" label="申报学生"  min-width="90"></el-table-column>
+                <el-table-column align="center" prop="projectField" label="项目所属领域"  min-width="90"></el-table-column>
+                <el-table-column align="center" prop="projectYear" label="年度"  min-width="90"></el-table-column>
+                <el-table-column align="center" prop="createDate" label="创建时间"  min-width="90">
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.createDate!=null&&scope.row.createDate!=''">
+                            {{$moment(scope.row.createDate).format("YYYY-MM-DD")}}
+                        </div>
+                        <div v-else ></div>
+                    </template>
+                </el-table-column>
                 <el-table-column align="center" prop="projectState" label="项目状态"  min-width="90">
                     <template slot-scope="scope">
                         {{stateShow(scope.row.projectState)}}
@@ -130,6 +142,8 @@ export default {
                 return "项目进行中";
             }else if(projectState=="6"){
                 return "项目结束";
+            }else if(projectState=="7"){
+                return "项目完成";
             }
         },
         review(r){

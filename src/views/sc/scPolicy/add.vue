@@ -1,15 +1,18 @@
 <template>
     <div>
-        <el-dialog  title="新增" :visible.sync="visible" width="500px" :close-on-click-modal="false" @close='closeDialog'>
+        <el-dialog  title="新增" :visible.sync="visible" width="1050px" :close-on-click-modal="false" @close='closeDialog'>
             <el-form ref="form" :rules="rules" :model="formData" label-width="100px" label-position="right">
-                <el-form-item label="角色编号:" prop="roleCode">
-                    <el-input  placeholder="角色编号" v-model="formData.roleCode"></el-input>
+                <el-form-item label="政策名称:" prop="policyName">
+                    <el-input  placeholder="政策名称" v-model="formData.policyName"></el-input>
                 </el-form-item>
-                <el-form-item label="角色名:" prop="roleName">
-                    <el-input  placeholder="角色名" v-model="formData.roleName"></el-input>
+                <el-form-item label="发布部门:" prop="releaseBm">
+                    <el-input  placeholder="发布部门" v-model="formData.releaseBm"></el-input>
                 </el-form-item>
-                <el-form-item label="角色详情:" prop="roleDetails">
-                    <el-input  placeholder="角色详情" v-model="formData.roleDetails"></el-input>
+                <el-form-item label="政策内容:" prop="policyContent">
+                    <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}"  placeholder="政策内容" v-model="formData.policyContent"></el-input>
+                </el-form-item>
+                <el-form-item label="政策备注:" prop="policyRemark">
+                    <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}"  placeholder="政策备注" v-model="formData.policyRemark"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -26,27 +29,18 @@ export default {
     data(){
         return{
             formData:{
-                roleCode:"",
-                roleName:"",
-                roleDetails:"",
+                policyName:"",
+                releaseBm:"",
+                policyContent:"",
+                policyRemark:"",
             },
             rules:{
-                roleCode: [{ required: true, message: '请输入角色编号'},
-                            { pattern: /^[a-z0-9]+$/, message: "请输入数字" },
-                            { validator: YzRoleCode, trigger: 'blur' }],
-                roleName: [{ required: true, message: '请输入角色名'}],
+                policyName:[{ required: true, message: '请输入政策名称'}],
+                releaseBm:[{ required: true, message: '请输入发布部门'}],
+                policyContent:[{ required: true, message: '请输入政策内容'}],
+                policyRemark:[{ required: true, message: '请输入政策备注'}],
             },
-            visible:false
-        }
-        function YzRoleCode(rule, value, callback){
-            fetch.get("/api/sysRole/yzRoleCode/"+value).then(res => {
-                if(res.code=="0"){
-                    return callback()
-                }else{
-                    return callback(new Error('存在重复code'))
-                }
-            })
-
+            visible:false,
         }
     },
     methods:{
@@ -56,7 +50,7 @@ export default {
         save(form){
             this.$refs[form].validate(valid => {
                 if (valid) {
-                    fetch.post("/api/sysRole/save",this.formData).then(res => {
+                    fetch.post("/api/scPolicy/save",this.formData).then(res => {
                         if (res.code == "0") {
                             Message({
                                 message: res.msg,
@@ -80,9 +74,10 @@ export default {
         closeDialog(){
             this.visible=false;
             this.formData={
-                roleCode:"",
-                roleName:"",
-                roleDetails:"",
+                policyName:"",
+                releaseBm:"",
+                policyContent:"",
+                policyRemark:"",
             }
         },
     }

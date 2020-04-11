@@ -5,7 +5,10 @@
         <div class="tabel">
             <el-table ref="table" header-row-class-name="table-header-row" cell-class-name="cell-row" :data="tableData" border stripe fit highlight-current-row v-loading="listLoading" element-loading-text="正在加载中……">
                 <el-table-column align="center" label="序号" type="index" :index="indexMethod" width="65"></el-table-column>
+                <el-table-column align="center" prop="projectCode" label="项目编号"  min-width="90"></el-table-column>
                 <el-table-column align="center" prop="projectName" label="项目名称"  min-width="90"></el-table-column>
+                <el-table-column align="center" prop="projectField" label="项目所属领域"  min-width="90"></el-table-column>
+                <el-table-column align="center" prop="projectYear" label="年度"  min-width="90"></el-table-column>
                 <el-table-column align="center" prop="projectState" label="项目状态"  min-width="90">
                     <template slot-scope="scope">
                         {{stateShow(scope.row.projectState)}}
@@ -20,14 +23,18 @@
             </el-table>
             <el-pagination class="pagination" @current-change="handleClick" @size-change="handleSizeChange" :current-page="pageProperty.page" :page-sizes="[10, 20, 50]" layout="total, sizes, prev, pager, next, jumper" :total="pageProperty.totalElements"></el-pagination>
         </div>
+        <end ref="end" v-on:loadData="getDataList"></end>
     </div>
 </template>
 <script>
 import fetch from '@/utils/fetch'
 import { Loading } from "element-ui"
 import { Message } from 'element-ui';
+
+import end from './end'
 export default {
     components:{
+        end
     },
     data(){
         return{
@@ -121,10 +128,12 @@ export default {
                 return "项目进行中";
             }else if(projectState=="6"){
                 return "项目结束";
+            }else if(projectState=="7"){
+                return "项目完成";
             }
         },
         conclud(r){
-
+            this.$refs.end.init(r);
         },
     }
     

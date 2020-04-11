@@ -1,20 +1,20 @@
 <template>
     <div>
-        <el-dialog  title="新增" :visible.sync="visible" width="500px" :close-on-click-modal="false" @close='closeDialog'>
+        <el-dialog  title="修改" :visible.sync="visible" width="1050px" :close-on-click-modal="false" @close='closeDialog'>
             <el-form ref="form" :rules="rules" :model="formData" label-width="100px" label-position="right">
-                <el-form-item label="角色编号:" prop="roleCode">
-                    <el-input  placeholder="角色编号" v-model="formData.roleCode"></el-input>
+                <el-form-item label="新闻名称:" prop="newsTitle">
+                    <el-input  placeholder="新闻名称" v-model="formData.newsTitle"></el-input>
                 </el-form-item>
-                <el-form-item label="角色名:" prop="roleName">
-                    <el-input  placeholder="角色名" v-model="formData.roleName"></el-input>
+                <el-form-item label="新闻内容:" prop="newsContent">
+                    <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}"  placeholder="新闻内容" v-model="formData.newsContent"></el-input>
                 </el-form-item>
-                <el-form-item label="角色详情:" prop="roleDetails">
-                    <el-input  placeholder="角色详情" v-model="formData.roleDetails"></el-input>
+                <el-form-item label="新闻备注:" prop="newsRemark">
+                    <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}"  placeholder="新闻备注" v-model="formData.newsRemark"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="closeDialog">取消</el-button>
-                <el-button type="primary" @click="save('form')">新增</el-button>
+                <el-button type="primary" @click="save('form')">修改</el-button>
             </div>
         </el-dialog>
     </div>
@@ -26,37 +26,33 @@ export default {
     data(){
         return{
             formData:{
-                roleCode:"",
-                roleName:"",
-                roleDetails:"",
+                newsTitle:"",
+                newsContent:"",
+                newsRemark:"",
             },
             rules:{
-                roleCode: [{ required: true, message: '请输入角色编号'},
-                            { pattern: /^[a-z0-9]+$/, message: "请输入数字" },
-                            { validator: YzRoleCode, trigger: 'blur' }],
-                roleName: [{ required: true, message: '请输入角色名'}],
+                newsTitle: [{ required: true, message: '请输入新闻名称'}],
+                newsContent: [{ required: true, message: '请输入新闻内容'}],
+                newsRemark: [{ required: true, message: '请输入新闻备注'}],
             },
             visible:false
         }
-        function YzRoleCode(rule, value, callback){
-            fetch.get("/api/sysRole/yzRoleCode/"+value).then(res => {
-                if(res.code=="0"){
-                    return callback()
-                }else{
-                    return callback(new Error('存在重复code'))
-                }
-            })
-
-        }
     },
     methods:{
-        init(){
-            this.visible=true;
+        init(r){
+            fetch.get("/api/scNews/"+r.id).then(res => {
+                if(res.code=="0"){
+                    this.formData=res.data;
+                    this.visible=true;
+                }
+                    
+            })
         },
         save(form){
+            this.formData.courseDate=this.$moment(this.formData.courseDate).format("YYYY-MM-DD HH:mm:ss")
             this.$refs[form].validate(valid => {
                 if (valid) {
-                    fetch.post("/api/sysRole/save",this.formData).then(res => {
+                    fetch.post("/api/scNews/save",this.formData).then(res => {
                         if (res.code == "0") {
                             Message({
                                 message: res.msg,
@@ -78,11 +74,11 @@ export default {
             })
         },
         closeDialog(){
-            this.visible=false;
+             this.visible=false;
             this.formData={
-                roleCode:"",
-                roleName:"",
-                roleDetails:"",
+                newsTitle:"",
+                newsContent:"",
+                newsRemark:"",
             }
         },
     }
