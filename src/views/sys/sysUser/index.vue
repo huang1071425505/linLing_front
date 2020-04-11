@@ -166,7 +166,7 @@ export default {
             }else{
                 title="是否恢复用户";
             }
-            this.$confirm("是否冻结该用户", "提示", {
+            this.$confirm('是否进行此项操作', "提示", {
                 type: "warning",
                 confirmButtonText: "确定",
                 cancelButtonText: "取消"

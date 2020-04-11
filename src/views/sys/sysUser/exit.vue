@@ -12,7 +12,7 @@
                     <el-input placeholder="用户电话" v-model="formData.userPhone" ></el-input>
                 </el-form-item >
                 <el-form-item label="用户角色：" prop="roleId">
-                    <el-select v-model="formData.roleId" @change="userRoleChange">
+                    <el-select v-model="formData.roleId" @change="userRoleChange" placeholder="用户角色">
                         <el-option v-for="(item,index) in userRoleList" :key="index" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                 </el-form-item>
@@ -102,7 +102,7 @@
 import fetch from '@/utils/fetch'
 import { Message } from 'element-ui'
 
-import { isPhone } from '@/utils/validate.js'
+import { isPhone,checkEmail } from '@/utils/validate.js'
 export default {
     data(){
         return{
@@ -131,6 +131,7 @@ export default {
                 userPhone: [{ required: true, message: '请输入用户电话'},
                             { validator: isPhone, trigger: 'blur' }],
                 roleId: [{ required: true, message: '请选择用户角色'}],
+                email:[{validator: checkEmail,trigger: 'blur'}],
             },
             visible:false,
             userRoleList:[],

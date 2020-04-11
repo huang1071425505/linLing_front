@@ -102,7 +102,7 @@
 import fetch from '@/utils/fetch'
 import { Message } from 'element-ui'
 
-import { isPhone } from '@/utils/validate.js'
+import { isPhone,checkEmail } from '@/utils/validate.js'
 export default {
     data(){
         return{
@@ -131,6 +131,7 @@ export default {
                 userPhone: [{ required: true, message: '请输入用户电话'},
                             { validator: isPhone, trigger: 'blur' }],
                 roleId: [{ required: true, message: '请选择用户角色'}],
+                email:[{validator: checkEmail,trigger: 'blur'}],
             },
             visible:false,
             userRoleList:[],
