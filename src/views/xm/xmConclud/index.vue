@@ -7,7 +7,7 @@
                 <el-table-column align="center" label="序号" type="index" :index="indexMethod" width="65"></el-table-column>
                 <el-table-column align="center" prop="projectCode" label="项目编号"  min-width="90"></el-table-column>
                 <el-table-column align="center" prop="projectName" label="项目名称"  min-width="90"></el-table-column>
-                <el-table-column align="center" prop="projectField" label="项目所属领域"  min-width="90"></el-table-column>
+                <el-table-column align="center" prop="dicName" label="项目所属领域"  min-width="90"></el-table-column>
                 <el-table-column align="center" prop="projectYear" label="年度"  min-width="90"></el-table-column>
                 <el-table-column align="center" prop="projectState" label="项目状态"  min-width="90">
                     <template slot-scope="scope">

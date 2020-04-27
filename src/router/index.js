@@ -89,6 +89,20 @@ export const childrenMap = [
     name: 'scNews',
     component: _import('sc/scNews/index'),
   },
+  {
+    // 字典表
+    path: 'sysDictionary',
+    name: 'sysDictionary',
+    component: _import('sys/sysDictionary'),
+  },
+  {
+    // 项目统计
+    path: 'xmTj',
+    name: 'xmTj',
+    component: _import('statistics/xmTj'),
+  },
+  
+  
 ]
 export default new Router({
   mode: 'history',
