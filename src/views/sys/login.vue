@@ -77,9 +77,10 @@ export default {
 <style scoped>
     .loginTitie {
         position: absolute;
+        width: 100%;
         left: 0;
-        padding-left: 25%;
-        margin: 37vh auto 0 auto;
+        text-align: center;
+        margin: 50px auto 0 auto;
         font-size:50px
     }
     .loginContainer {
@@ -105,12 +106,13 @@ export default {
     .close-eye {
         margin-right: 5px;
     }
-    .loginContainer .loginForm {
-    position: absolute;
+    .loginForm {
+    position: relative;
     right: 0;
     width: 50%;
     padding-left: 5%;
-    margin: 30vh auto 0 auto;
+    margin-top: 160px;
+    margin-left: 390px;
     }
     .loginElement {
     width: 400px;
@@ -161,6 +163,7 @@ export default {
     position: relative;
     }
     .el-button--primary {
+    margin-left: 40px;;
     font-family: Microsoft YaHei;
     font-size: 15px;
     letter-spacing: 10px;
