@@ -22,7 +22,10 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="项目所属领域:" prop="projectField">
-                            <el-input  placeholder="项目所属领域" v-model="formData.projectField"></el-input>
+                            <!-- <el-input  placeholder="项目所属领域" v-model="formData.projectField"></el-input> -->
+                            <el-select  placeholder="项目所属领域"  filterable v-model="formData.projectField" style="width:385px;" @change="projectFieldChange">
+                                <el-option v-for="item in projectFieldList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -82,6 +85,7 @@ export default {
                 projectIntroduce:[{required:true,message:'项目介绍不能为空'}],
             },
             teacherList:[],
+            projectFieldList:[],
             visible:false,  
         }
         function YzProjectCode(rule, value, callback){
@@ -98,6 +102,7 @@ export default {
         init(){
             this.visible=true;
             this.getTeacherList();
+            this.getProjectFieldList();
         },
         //获取指导老师列表
         getTeacherList(){
@@ -112,6 +117,24 @@ export default {
                     }
                 }
             })
+        },
+        //获取项目所属领域列表
+        getProjectFieldList(){
+            fetch.get("/api/sysdictionary/groupQuery/xmssly").then(res => {
+                if(res.code=="0"){
+                    this.projectFieldList=[];
+                    for(var index in res.data){
+                        this.projectFieldList.push({
+                            label:res.data[index].dicName,
+                            value:res.data[index].id
+                        })
+                    }
+                }
+            })
+        },
+        //项目所属领域选择变动事件
+        projectFieldChange(){
+
         },
         //下拉框选择变动事件
         selectChange(r){
